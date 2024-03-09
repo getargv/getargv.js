@@ -53,7 +53,7 @@ jobs:
         mkdir pkg
         npm pack --pack-destination ./pkg/ || ( npm pack && mv camjn-getargv*.tgz ./pkg/ )
       working-directory: getargv.js
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: pack-${{ matrix.node-version }}
         path: getargv.js/pkg/*
