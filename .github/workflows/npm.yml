@@ -33,14 +33,9 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: latest
-        scope: '@getargv'
         registry-url: https://npm.pkg.github.com/
+    - cat $NPM_CONFIG_USERCONFIG
     - run: npm ci
-      working-directory: getargv.js
-    - run: |
-       echo registry=https://npm.pkg.github.com/ > .npmrc
-       echo always-auth=true >> .npmrc
-       echo //npm.pkg.github.com/:_authToken=${{ github.token }} >> .npmrc
       working-directory: getargv.js
     - run: npm publish
       working-directory: getargv.js
