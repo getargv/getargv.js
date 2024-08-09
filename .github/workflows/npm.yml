@@ -34,7 +34,7 @@ jobs:
       with:
         node-version: latest
         registry-url: https://npm.pkg.github.com/
-    - cat $NPM_CONFIG_USERCONFIG
+    - run: cat $NPM_CONFIG_USERCONFIG
     - run: npm ci
       working-directory: getargv.js
     - run: npm publish
