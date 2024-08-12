@@ -1,6 +1,6 @@
 import { TextEncoding, TextDecoderOptions, GetArgv } from './types';
 
-const addon: GetArgv = require('../build/Release/getargv_native');
+const addon: GetArgv = require('../build/Release/getargv_native.node');
 
 addon.as_string = function as_string(pid: number, encoding: TextEncoding, nuls?: boolean, skip?: number, options?: TextDecoderOptions): string {
     switch (arguments.length) {
