@@ -24,6 +24,7 @@
     "scripts": {
         "prebuild": "tsc",
         "build": "node-gyp configure build",
+        "rebuild": "node-gyp rebuild",
         "pretest": "npm run build",
         "test": "node --napi-modules ./test/test_binding.js",
         "prepack": "npm run build",
