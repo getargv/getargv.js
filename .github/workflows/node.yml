@@ -51,7 +51,9 @@ jobs:
 
     - name: Build
       run: |
-        npm ci
+        echo "uname: '$(uname -a)'"
+        echo "cc: '$(cc -v)'"
+        npm ci --verbose
         mkdir pkg
         npm pack --pack-destination ./pkg/ || ( npm pack && mv camjn-getargv*.tgz ./pkg/ )
       working-directory: getargv.js
