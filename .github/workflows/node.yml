@@ -10,6 +10,7 @@ jobs:
   test:
     runs-on: macos-latest
     strategy:
+      fail-fast: false
       matrix:
         node-version:
           - 18.x # EOL: 2025-04-30
