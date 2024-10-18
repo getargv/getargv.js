@@ -15,7 +15,7 @@ jobs:
           - 18.x # EOL: 2025-04-30
           - 20.x # EOL: 2026-04-30
           - 22.x # EOL: 2027-04-30
-          #- 23.x # REL: 2024-10-15 EOL: 2025-06-01
+          - 23.x # EOL: 2025-06-01
           #- 24.x # REL: 2025-04-22 EOL: 2028-04-30
           # See supported Node.js release schedule at https://github.com/nodejs/Release
     steps:
