@@ -32,6 +32,8 @@ get_argv_of_pid_as_string(some_process_id) //=> "arg0\x00arg1"
 get_argv_of_pid_as_array(some_process_id) //=> ["arg0","arg1"]
 ```
 
+Docs here: https://getargv.github.io/getargv.js/interfaces/GetArgv.html
+
 ## Development
 
 After checking out the repo, run `npm i` to install dependencies. Then, run `npm run test` to run the tests. You can also run `npm run console` for an interactive prompt that will allow you to experiment.
