@@ -3,10 +3,11 @@
         "getargv": "lib/cli.js"
     },
     "devDependencies": {
-        "@types/node": "^18.15.5",
-        "typedoc": "^0.23.28",
-        "typedoc-plugin-missing-exports": "^1.0.0",
-        "typescript": "^5.0.2"
+        "@tsconfig/node20": "^20.0",
+        "@types/node": "^20.0",
+        "typedoc": "^0.28.0",
+        "typedoc-plugin-missing-exports": "^4.0.0",
+        "typescript": "^5.0"
     },
     "os": [
         "darwin"
@@ -26,12 +27,12 @@
         "build": "node-gyp configure build",
         "rebuild": "node-gyp rebuild",
         "pretest": "npm run build",
-        "test": "node --napi-modules ./test/test_binding.js",
+        "test": "node --experimental-addon-modules --napi-modules ./test/test_binding.js",
         "prepack": "npm run build",
         "precli": "npm run build",
-        "cli": "node dist/cli.js",
+        "cli": "node --experimental-addon-modules dist/cli.js",
         "preconsole": "npm run build",
-        "console": "node --napi-modules -r ./dist/binding.js -e 'const GetArgv = require.cache[Object.keys(require.cache)[0]].exports;' -i",
+        "console": "node --experimental-addon-modules --napi-modules -r ./dist/binding.js -e 'const GetArgv = require.cache[Object.keys(require.cache)[0]].exports;' -i",
         "docs": "typedoc --tsconfig $PWD/tsconfig.json lib/types.ts",
         "start": "npm run console"
     },

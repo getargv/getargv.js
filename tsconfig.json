@@ -1,12 +1,13 @@
 {
+  "extends": "@tsconfig/node20/tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "lib": [ "esnext" ],
-    "module": "commonjs",
+    "rewriteRelativeImportExtensions": true,
+    "module": "preserve",
+    "moduleResolution": "bundler",
     "outDir": "./dist",
     "rootDir": "./lib",
     "strict": true,
-    "target": "es6",
     "types": [
       "node"
     ],

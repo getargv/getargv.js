@@ -1,6 +1,6 @@
-const Getargv = require("../dist/binding");
-const { assert, header, section, footer, expected_args } = require("./test_helper");
-const process = require("process");
+import Getargv from "../dist/binding";
+import { assert, header, section, footer, expected_args } from "./test_helper";
+import process from "process";
 
 header();
 

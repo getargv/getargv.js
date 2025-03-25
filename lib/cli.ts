@@ -1,4 +1,4 @@
-const { get_argv_of_pid } = require('./binding');
+import { get_argv_of_pid } from './binding';
 
 function exit(msg: string) {
     console.error(msg);

@@ -1,6 +1,6 @@
 import type { TextEncoding, TextDecoderOptions, GetArgv } from './types';
 
-const addon: GetArgv = require('../build/Release/getargv_native.node');
+import addon from '../build/Release/getargv_native.node';
 
 type ArgKinds = Parameters<GetArgv['as_string']> | Parameters<GetArgv['as_array']>;
 
@@ -27,11 +27,11 @@ addon.as_array = validate_args(function (pid: number, encoding: TextEncoding, op
   return array.map(b => decoder.decode(b));
 });
 
-exports.PID_MAX = addon.PID_MAX;
-exports.ARG_MAX = addon.ARG_MAX;
-exports.get_argv_of_pid = addon.get_argv_of_pid;
-exports.as_string = addon.as_string;
-exports.get_argv_and_argc_of_pid = addon.get_argv_and_argc_of_pid;
-exports.as_array = addon.as_array;
+export const PID_MAX = addon.PID_MAX;
+export const ARG_MAX = addon.ARG_MAX;
+export const get_argv_of_pid = addon.get_argv_of_pid;
+export const as_string = addon.as_string;
+export const get_argv_and_argc_of_pid = addon.get_argv_and_argc_of_pid;
+export const as_array = addon.as_array;
 
-export = addon;
+export default addon;

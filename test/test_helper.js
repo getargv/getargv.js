@@ -1,4 +1,4 @@
-const iassert = require("assert");
+import iassert from "assert";
 
 const errors = [];
 
