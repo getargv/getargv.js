@@ -45,6 +45,10 @@ export type TextEncoding = utf_8 | ibm866 | iso_8859_2 | iso_8859_3 | iso_8859_4
 
 export type TextDecoderOptions = ConstructorParameters<typeof TextDecoder>[1];
 
+declare global {
+  type GetArgvGlobal = GetArgv;
+}
+
 export interface GetArgv {
 
     /** @constant
