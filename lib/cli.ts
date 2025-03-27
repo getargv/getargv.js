@@ -26,7 +26,8 @@ if (process.argv.length < 3) {
 
         if (process.exitCode == undefined) {
             const args = get_argv_of_pid(pid, !keep_nuls, skip);
-            process.stdout.write(args);
+            const u8a = new Uint8Array(args);
+            process.stdout.write(u8a);
         }
     }
 }
