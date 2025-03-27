@@ -20,6 +20,7 @@
     "homepage": "https://getargv.narzt.cam/",
     "author": "Camden Narzt <getargv@narzt.cam>",
     "version": "0.0.32",
+    "type": "module",
     "description": "This library allows you to query the arguments of other processes on macOS.",
     "main": "dist/binding.js",
     "scripts": {
@@ -27,7 +28,7 @@
         "build": "node-gyp configure build",
         "rebuild": "node-gyp rebuild",
         "pretest": "npm run build",
-        "test": "node --experimental-addon-modules --napi-modules ./test/test_binding.js",
+        "test": "node --experimental-addon-modules --napi-modules --test",
         "prepack": "npm run build",
         "precli": "npm run build",
         "cli": "node --experimental-addon-modules dist/cli.js",
