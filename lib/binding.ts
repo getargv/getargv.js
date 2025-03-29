@@ -1,6 +1,7 @@
 import type { TextEncoding, TextDecoderOptions, GetArgv } from './types';
 
-import addon from '../build/Release/getargv_native.node';
+import native_addon from '../build/Release/getargv_native.node';
+const addon: GetArgv = native_addon;
 
 type ArgKinds = Parameters<GetArgv['as_string']> | Parameters<GetArgv['as_array']>;
 
