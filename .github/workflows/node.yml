@@ -48,6 +48,8 @@ jobs:
       working-directory: getargv.js
     - run: npm test
       working-directory: getargv.js
+      env:
+        NODE_OPTIONS: ${{ ! contains(fromJSON('["20.x", "22.x"]'), matrix.node-version) && '--experimental-addon-modules' || '' }}
 
     - name: Build
       run: |
