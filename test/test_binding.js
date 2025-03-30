@@ -3,12 +3,19 @@ import Getargv from "../dist/binding.js";
 import process from "process";
 import assert from 'node:assert/strict';
 
+const [major, _minor, _patch] = process.versions.node.split('.').map(Number);
+
 const removePrefix = (value, prefix) => value.startsWith(prefix) ? value.slice(prefix.length) : value;
+
+function fixupPerNodeVersion(input) {
+    if (major && major <= 20) return input;
+    return removePrefix(input, process.cwd()+"/");
+}
 
 function expected_args() {
     const enc = new TextEncoder();
     return [process.argv0, ...process.execArgv, ...process.argv.slice(1)].map(a =>
-        enc.encode(removePrefix(a, process.cwd()+"/") + "\0").buffer
+        enc.encode(fixupPerNodeVersion(a) + "\0").buffer
     );
 };
 

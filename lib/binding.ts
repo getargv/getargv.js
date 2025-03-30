@@ -1,7 +1,12 @@
 import type { TextEncoding, TextDecoderOptions, GetArgv } from './types';
 
-import native_addon from '../build/Release/getargv_native.node';
-const addon: GetArgv = native_addon;
+// Node 23+ can experimentally import native .node modules with NODE_OPTIONS=--experimental-addon-modules
+// import native_addon from '../build/Release/getargv_native.node';
+// const addon: GetArgv = native_addon;
+
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const addon: GetArgv = require('../build/Release/getargv_native.node');
 
 type ArgKinds = Parameters<GetArgv['as_string']> | Parameters<GetArgv['as_array']>;
 

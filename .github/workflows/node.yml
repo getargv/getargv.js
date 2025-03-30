@@ -13,10 +13,10 @@ jobs:
       fail-fast: false
       matrix:
         node-version:
-          - 20.x # EOL: 2026-04-30 update tsconfig.json too
+          - 20.x # EOL: 2026-04-30 update tsconfig.json & package.json too
           - 22.x # EOL: 2027-04-30
           - 23.x # EOL: 2025-06-01 <<<<
-          - 24.x # EOL: 2028-04-30
+          #- 24.x # EOL: 2028-04-30
           # See supported Node.js release schedule at https://github.com/nodejs/Release
     steps:
     - uses: actions/checkout@v4
@@ -48,8 +48,6 @@ jobs:
       working-directory: getargv.js
     - run: npm test
       working-directory: getargv.js
-      env:
-        NODE_OPTIONS: ${{ ! contains(fromJSON('["20.x", "22.x"]'), matrix.node-version) && '--experimental-addon-modules' || '' }}
 
     - name: Build
       run: |
