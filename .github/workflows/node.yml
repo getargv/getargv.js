@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
+  test-node:
     runs-on: macos-latest
     strategy:
       fail-fast: false
@@ -48,7 +48,6 @@ jobs:
       working-directory: getargv.js
     - run: npm test
       working-directory: getargv.js
-
     - name: Build
       run: |
         echo "uname: '$(uname -a)'"
@@ -62,8 +61,35 @@ jobs:
         name: pack-${{ matrix.node-version }}
         path: getargv.js/pkg/*
 
+  test-bun:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        repository: getargv/getargv
+        path: getargv
+        token: ${{ secrets.GH_PAT }}
+    - name: Build libgetargv
+      run: make dylib
+      working-directory: getargv
+    - name: Install libgetargv
+      run: sudo make install_dylib
+      working-directory: getargv
+    - uses: actions/checkout@v4
+      with:
+        path: getargv.js
+    - uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: latest
+    - run: bun install --frozen-lockfile
+      working-directory: getargv.js
+    - run: bun run build --if-present
+      working-directory: getargv.js
+    - run: bun test
+      working-directory: getargv.js
+
   release:
-    needs: [ test ]
+    needs: [ test-node, test-bun ]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     permissions:

@@ -41,8 +41,9 @@ type utf_16le = "utf-16" | "utf-16le";
 type x_user_defined = "x-user-defined";
 type replacement = "iso-2022-cn" | "iso-2022-cn-ext";
 
-export type TextEncoding = utf_8 | ibm866 | iso_8859_2 | iso_8859_3 | iso_8859_4 | iso_8859_5 | iso_8859_6 | iso_8859_7 | iso_8859_8 | iso_8859_8i | iso_8859_10 | iso_8859_13 | iso_8859_14 | iso_8859_15 | iso_8859_16 | koi8_r | koi8_u | macintosh | windows_874 | windows_1250 | windows_1251 | windows_1252 | windows_1253 | windows_1254 | windows_1255 | windows_1256 | windows_1257 | windows_1258 | x_mac_cyrillic | gbk | gb18030 | hz_gb_2312 | big5 | euc_jp | iso_2022_jp | shift_jis | euc_kr | iso_2022_kr | utf_16be | utf_16le | x_user_defined | replacement;
+//export type TextEncoding = utf_8 | ibm866 | iso_8859_2 | iso_8859_3 | iso_8859_4 | iso_8859_5 | iso_8859_6 | iso_8859_7 | iso_8859_8 | iso_8859_8i | iso_8859_10 | iso_8859_13 | iso_8859_14 | iso_8859_15 | iso_8859_16 | koi8_r | koi8_u | macintosh | windows_874 | windows_1250 | windows_1251 | windows_1252 | windows_1253 | windows_1254 | windows_1255 | windows_1256 | windows_1257 | windows_1258 | x_mac_cyrillic | gbk | gb18030 | hz_gb_2312 | big5 | euc_jp | iso_2022_jp | shift_jis | euc_kr | iso_2022_kr | utf_16be | utf_16le | x_user_defined | replacement;
 
+export type TextEncoding = ConstructorParameters<typeof TextDecoder>[0];
 export type TextDecoderOptions = ConstructorParameters<typeof TextDecoder>[1];
 
 export interface GetArgv {
