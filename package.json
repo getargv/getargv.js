@@ -7,6 +7,7 @@
     },
     "devDependencies": {
         "@tsconfig/node20": "^20.0",
+        "@types/bun": "^1.2.8",
         "@types/node": "^20.0",
         "typedoc": "^0.28.0",
         "typedoc-plugin-missing-exports": "^4.0.0",
@@ -32,9 +33,11 @@
     "scripts": {
         "prebuild": "tsc && cp lib/*.d.ts dist/",
         "build": "node-gyp configure build",
+        "bun-build": "bun run build.mjs",
         "rebuild": "node-gyp rebuild",
         "pretest": "npm run build",
         "test": "node --test",
+        "bun-test": "bun test",
         "prepack": "npm run build",
         "precli": "npm run build",
         "cli": "node dist/cli.js",
