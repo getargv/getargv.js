@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
+import assert from 'node:assert/strict';
 import Getargv from "../dist/binding.js";
 import process from "process";
-import assert from 'node:assert/strict';
 
 const [major, _minor, _patch] = process.versions.node.split('.').map(Number);
 
@@ -233,17 +233,17 @@ describe("Correct functionality", _ => {
     });
 
     it('Getargv.as_string returns correct utf16 output', _ => {
-        const dec = new TextDecoder();
+        const dec = new TextDecoder("utf-16");
         const result = Getargv.as_string(process.pid, "utf-16");
         const expected = expected_args().map(e => dec.decode(e)).join("");
-        assert.notEqual(result, expected, "Unexpected value returned");
+        assert.equal(result, expected, "Unexpected value returned");
     });
 
     it('Getargv.as_array returns correct utf16 output', _ => {
-        const dec = new TextDecoder();
+        const dec = new TextDecoder("utf-16");
         const result = Getargv.as_array(process.pid, "utf-16");
         const expected = expected_args().map(e => dec.decode(e));
-        assert.notDeepEqual(result, expected, "Unexpected value returned");
+        assert.deepEqual(result, expected, "Unexpected value returned");
     });
 
 });
