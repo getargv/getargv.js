@@ -2,11 +2,15 @@
     "bin": {
         "getargv": "lib/cli.js"
     },
+    "dependencies": {
+        "node-gyp": "^11.2.0"
+    },
     "devDependencies": {
-        "@types/node": "^18.15.5",
-        "typedoc": "^0.23.28",
-        "typedoc-plugin-missing-exports": "^1.0.0",
-        "typescript": "^5.0.2"
+        "@tsconfig/node20": "^20.0",
+        "@types/node": "^20.0",
+        "typedoc": "^0.28.0",
+        "typedoc-plugin-missing-exports": "^4.0.0",
+        "typescript": "^5.7"
     },
     "os": [
         "darwin"
@@ -18,20 +22,22 @@
     "name": "@camjn/getargv",
     "homepage": "https://getargv.narzt.cam/",
     "author": "Camden Narzt <getargv@narzt.cam>",
-    "version": "0.0.32",
+    "version": "0.1.0",
+    "engines": { "node": ">20.0.0" },
+    "type": "module",
     "description": "This library allows you to query the arguments of other processes on macOS.",
     "main": "dist/binding.js",
     "scripts": {
-        "prebuild": "tsc",
+        "prebuild": "tsc && cp lib/*.d.ts dist/",
         "build": "node-gyp configure build",
         "rebuild": "node-gyp rebuild",
         "pretest": "npm run build",
-        "test": "node --napi-modules ./test/test_binding.js",
+        "test": "node --test",
         "prepack": "npm run build",
         "precli": "npm run build",
         "cli": "node dist/cli.js",
         "preconsole": "npm run build",
-        "console": "node --napi-modules -r ./dist/binding.js -e 'const GetArgv = require.cache[Object.keys(require.cache)[0]].exports;' -i",
+        "console": "node --eval 'await import(\"./dist/binding.js\").then(e => global.GetArgv = e.default);' --interactive",
         "docs": "typedoc --tsconfig $PWD/tsconfig.json lib/types.ts",
         "start": "npm run console"
     },
