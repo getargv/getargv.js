@@ -38,31 +38,43 @@ export function makeChild(unique_name, broken_utf_16 = true) {
 
 export function toBuffer(str) {
     const enc = new TextEncoder();
+    if (str instanceof ArrayBuffer) return str;
     return enc.encode(str).buffer;
 }
 
-export function fromBuffer(buf, enc) {
+export function fromBuffer(buf, enc = 'utf-8') {
     const dec = new TextDecoder(enc);
     return dec.decode(buf);
 }
 
 export function appendBuffers(buffer1, buffer2, index, array) {
-    let nul_count = 1;
-    if (array.length == index + 1) {
+    let nul_count = 0;
+    const b1view = new Uint8Array(buffer1);
+    const b2view = new Uint8Array(buffer2);
+    const b1_nul_terminated = b1view.at(-1) == 0;
+    const b2_nul_terminated = b2view.at(-1) == 0;
+    const end_of_array = array.length == index + 1;
+    const nul = new Uint8Array([0]);
+    const b2_offset = buffer1.byteLength + (b1_nul_terminated? 0 : 1);
+
+    if (!b1_nul_terminated) {
+        nul_count++;
+    }
+    if (end_of_array && !b2_nul_terminated) {
         nul_count++;
     }
     const ret = new Uint8Array(buffer1.byteLength + buffer2.byteLength + nul_count);
-    ret.set(new Uint8Array(buffer1), 0);
-    ret.set(new Uint8Array([0]), buffer1.byteLength);
-    ret.set(new Uint8Array(buffer2), buffer1.byteLength + 1);
+    ret.set(b1view, 0);
+    if (!b1_nul_terminated) ret.set(nul, buffer1.byteLength);
+    ret.set(b2view, b2_offset);
 
-    if (array.length == index + 1) {
-        ret.set(new Uint8Array([0]), buffer1.byteLength + buffer2.byteLength + 1);
+    if (end_of_array && !b2_nul_terminated) {
+        ret.set(nul, b2_offset + buffer2.byteLength);
     }
 
     return ret.buffer;
 };
 
 export function argsToString(args, enc){
-    return fromBuffer(args.map(s => toBuffer(s,enc)).reduce(appendBuffers), "utf-16");
+    return fromBuffer(args.map(toBuffer).reduce(appendBuffers), enc);
 }
