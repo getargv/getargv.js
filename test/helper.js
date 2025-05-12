@@ -32,8 +32,13 @@ export function expectedArray(enc) {
 }
 
 export function makeChild(unique_name, broken_utf_16 = true) {
-    const pathTo = rest => `/Library/Developer/CommandLineTools/Library/PrivateFrameworks/LLDB.framework/Versions/Current/Resources/${rest}`;
-    return spawn(pathTo('darwin-debug'), [`--unix-socket=${join(tmpdir(), unique_name)}`, '--', pathTo('lldb-argdumper'), broken_utf_16 ? 'length-sensitive-arg' : 'len-sensitive-arg'], { argv0: "lldb-argdumper" });
+    const pathTo = exe => `/Library/Developer/CommandLineTools/Library/PrivateFrameworks/LLDB.framework/Versions/Current/Resources/${exe}`;
+    const sock_path = join(tmpdir(), unique_name);
+    const child = spawn(pathTo('darwin-debug'), [`--unix-socket=${sock_path}`, '--', pathTo('lldb-argdumper'), broken_utf_16 ? 'length-sensitive-arg' : 'len-sensitive-arg'], { argv0: "lldb-argdumper" });
+
+    while (!child.pid) { }
+
+    return child;
 }
 
 export function toBuffer(str) {
