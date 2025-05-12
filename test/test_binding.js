@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { makeChild, expectedArgs, pid, toBuffer, fromBuffer, expectedString, expectedArray, appendBuffers } from "./helper.js";
+import { makeChild, expectedArgs, pid, toBuffer, fromBuffer, expectedString, expectedArray, argsToString } from "./helper.js";
 import Getargv from "../dist/binding.js";
 
 describe("Testing constants", _ => {
@@ -226,7 +226,7 @@ describe("Correct functionality", _ => {
         const child = makeChild(c.fullName, false);
         try {
             const result = Getargv.as_string(child.pid, "utf-16");
-            const expected = fromBuffer(child.spawnargs.map(toBuffer).reduce(appendBuffers), "utf-16");
+            const expected = argsToString(child.spawnargs, "utf-16");
             assert.equal(result, expected, "Unexpected value returned");
         } finally {
             child.kill();

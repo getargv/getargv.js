@@ -21,10 +21,10 @@ export function expectedArgs() {
     return [process.argv0, ...process.execArgv, ...process.argv.slice(1)].map(a =>
         enc.encode(fixupPerNodeVersion(a) + "\0").buffer
     );
-};
+}
 
 export function expectedString(enc) {
-    return expectedArgs().map(e => fromBuffer(e, enc)).join("");
+    return argsToString(expectedArgs(), enc);
 }
 
 export function expectedArray(enc) {
@@ -62,3 +62,7 @@ export function appendBuffers(buffer1, buffer2, index, array) {
 
     return ret.buffer;
 };
+
+export function argsToString(args, enc){
+    return fromBuffer(args.map(s => toBuffer(s,enc)).reduce(appendBuffers), "utf-16");
+}
