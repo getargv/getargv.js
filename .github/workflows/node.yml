@@ -15,7 +15,6 @@ jobs:
         node-version:
           - 20.x # EOL: 2026-04-30 update tsconfig.json & package.json too
           - 22.x # EOL: 2027-04-30
-          - 23.x # EOL: 2025-06-01 <<<<
           - 24.x # EOL: 2028-04-30
           # See supported Node.js release schedule at https://github.com/nodejs/Release
     steps:
