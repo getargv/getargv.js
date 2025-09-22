@@ -19,7 +19,7 @@ jobs:
           - 24.x # EOL: 2028-04-30
           # See supported Node.js release schedule at https://github.com/nodejs/Release
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         repository: getargv/getargv
         path: getargv
@@ -30,11 +30,11 @@ jobs:
     - name: Install libgetargv
       run: sudo make install_dylib
       working-directory: getargv
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         path: getargv.js
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v5
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
@@ -74,7 +74,7 @@ jobs:
       GIT_COMMITTER_NAME: github-actions
       GIT_COMMITTER_EMAIL: github-actions@github.com
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         token: ${{ secrets.GH_PAT_WRITE }}
     - name: Bump Version
@@ -82,7 +82,7 @@ jobs:
       run: echo "version=$(npm version patch)" >> $GITHUB_OUTPUT
     - name: Push tag
       run: git push origin tag ${{ steps.version.outputs.version }}
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     # deliberately do NOT trigger workflow on push to main
       with:
         fetch-depth: 0
