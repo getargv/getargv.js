@@ -3,7 +3,7 @@
         "getargv": "lib/cli.js"
     },
     "dependencies": {
-        "node-gyp": "^11.4.0"
+        "node-gyp": "^12.1.0"
     },
     "devDependencies": {
         "@tsconfig/node20": "^20.0",
