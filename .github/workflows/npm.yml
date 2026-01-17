@@ -14,7 +14,7 @@ jobs:
       packages: write
       id-token: write
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         repository: getargv/getargv
         path: getargv
@@ -25,12 +25,12 @@ jobs:
     - name: install libgetargv
       run: sudo make install_dylib
       working-directory: getargv
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         path: getargv.js
     - run: sed -e 's/@camjn/@getargv/' -i '' package.json
       working-directory: getargv.js
-    - uses: actions/setup-node@v5
+    - uses: actions/setup-node@v6
       with:
         node-version: latest
         registry-url: https://npm.pkg.github.com/
@@ -49,7 +49,7 @@ jobs:
     permissions:
         id-token: write
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         repository: getargv/getargv
         path: getargv
@@ -60,10 +60,10 @@ jobs:
     - name: install libgetargv
       run: sudo make install_dylib
       working-directory: getargv
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         path: getargv.js
-    - uses: actions/setup-node@v5
+    - uses: actions/setup-node@v6
       with:
         node-version: latest
         registry-url: https://registry.npmjs.org/
