@@ -22,7 +22,7 @@
     "name": "@camjn/getargv",
     "homepage": "https://getargv.narzt.cam/",
     "author": "Camden Narzt <getargv@narzt.cam>",
-    "version": "0.1.9",
+    "version": "0.1.10",
     "engines": {
         "node": ">20.0.0"
     },
