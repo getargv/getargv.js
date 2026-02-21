@@ -3,14 +3,14 @@
         "getargv": "lib/cli.js"
     },
     "dependencies": {
-        "node-gyp": "^12.1.0"
+        "node-gyp": "^12.2.0"
     },
     "devDependencies": {
         "@tsconfig/node20": "^20.0",
         "@types/node": "^20.0",
         "typedoc": "^0.28.0",
         "typedoc-plugin-missing-exports": "^4.0.0",
-        "typescript": "^5.7"
+        "typescript": "^5.9"
     },
     "os": [
         "darwin"
