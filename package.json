@@ -1,6 +1,6 @@
 {
     "bin": {
-        "getargv": "lib/cli.js"
+        "getargv": "dist/cli.js"
     },
     "dependencies": {
         "node-gyp": "^12.2.0"
@@ -12,19 +12,15 @@
         "typedoc-plugin-missing-exports": "^4.0.0",
         "typescript": "^5.9"
     },
-    "os": [
-        "darwin"
-    ],
+    "os": "darwin",
     "funding": "https://github.com/sponsors/CamJN",
-    "bugs": {
-        "url": "https://github.com/getargv/getargv.js/issues"
-    },
+    "bugs": "https://github.com/getargv/getargv.js/issues",
     "name": "@camjn/getargv",
     "homepage": "https://getargv.narzt.cam/",
     "author": "Camden Narzt <getargv@narzt.cam>",
     "version": "0.1.11",
     "engines": {
-        "node": ">20.0.0"
+        "node": ">=20"
     },
     "type": "module",
     "description": "This library allows you to query the arguments of other processes on macOS.",
@@ -54,7 +50,7 @@
     "gypfile": true,
     "repository": {
         "type": "git",
-        "url": "https://github.com/getargv/getargv.js"
+        "url": "git+https://github.com/getargv/getargv.js.git"
     },
     "keywords": [
         "macOS",
