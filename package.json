@@ -12,13 +12,15 @@
         "typedoc-plugin-missing-exports": "^4.0.0",
         "typescript": "^5.9"
     },
-    "os": [ "darwin" ],
+    "os": [
+        "darwin"
+    ],
     "funding": "https://github.com/sponsors/CamJN",
     "bugs": "https://github.com/getargv/getargv.js/issues",
     "name": "@camjn/getargv",
     "homepage": "https://getargv.narzt.cam/",
     "author": "Camden Narzt <getargv@narzt.cam>",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "engines": {
         "node": ">=20"
     },
