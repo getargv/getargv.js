@@ -50,8 +50,6 @@ jobs:
 
     - name: Build
       run: |
-        echo "uname: '$(uname -a)'"
-        echo "cc: '$(cc -v)'"
         npm ci --verbose
         mkdir pkg
         npm pack --pack-destination ./pkg/ || ( npm pack && mv camjn-getargv*.tgz ./pkg/ )
@@ -67,6 +65,8 @@ jobs:
     if: github.ref == 'refs/heads/main'
     permissions:
       contents: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     env:
       GIT_AUTHOR_NAME: github-actions
       GIT_AUTHOR_EMAIL: github-actions@github.com
@@ -74,19 +74,79 @@ jobs:
       GIT_COMMITTER_EMAIL: github-actions@github.com
     steps:
     - uses: actions/checkout@v6
-      with:
-        token: ${{ secrets.GH_PAT_WRITE }}
     - name: Bump Version
       id: version
       run: echo "version=$(npm version patch)" >> $GITHUB_OUTPUT
     - name: Push tag
       run: git push origin tag ${{ steps.version.outputs.version }}
-    - uses: actions/checkout@v6
-    # deliberately do NOT trigger workflow on push to main
-      with:
-        fetch-depth: 0
-        clean: false
-        ref: ${{ steps.version.outputs.version }}
-        token: ${{ github.token }}
     - name: Push main
       run: git push origin HEAD:main
+
+  publish-gpr:
+    needs: [ release ]
+    runs-on: macos-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        repository: getargv/getargv
+        path: getargv
+        token: ${{ secrets.GETARGV_READ }}
+    - name: Build libgetargv
+      run: make dylib
+      working-directory: getargv
+    - name: install libgetargv
+      run: sudo make install_dylib
+      working-directory: getargv
+    - uses: actions/checkout@v6
+      with:
+        ref: ${{ needs.release.outputs.version }}
+        path: getargv.js
+    - run: sed -e 's/@camjn/@getargv/' -i '' package.json
+      working-directory: getargv.js
+    - uses: actions/setup-node@v6
+      with:
+        node-version: latest
+        registry-url: https://npm.pkg.github.com/
+    - run: npm ci
+      working-directory: getargv.js
+    - run: npm publish
+      working-directory: getargv.js
+      env:
+        NODE_AUTH_TOKEN: ${{ github.token }}
+    - run: npm config list
+      working-directory: getargv.js
+      if: ${{ failure() }}
+
+  publish-npm:
+    needs: [ release ]
+    runs-on: macos-latest
+    permissions:
+        id-token: write
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        repository: getargv/getargv
+        path: getargv
+        token: ${{ secrets.GETARGV_READ }}
+    - name: Build libgetargv
+      run: make dylib
+      working-directory: getargv
+    - name: install libgetargv
+      run: sudo make install_dylib
+      working-directory: getargv
+    - uses: actions/checkout@v6
+      with:
+        ref: ${{ needs.release.outputs.version }}
+        path: getargv.js
+    - uses: actions/setup-node@v6
+      with:
+        node-version: latest
+        registry-url: https://registry.npmjs.org/
+    - run: npm ci
+      working-directory: getargv.js
+    - run: npm publish --provenance --access public
+      working-directory: getargv.js
