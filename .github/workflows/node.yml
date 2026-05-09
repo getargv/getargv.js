@@ -13,9 +13,10 @@ jobs:
       fail-fast: false
       matrix:
         node-version:
-          - 20.x # EOL: 2026-04-30 update tsconfig.json & package.json too
           - 22.x # EOL: 2027-04-30
           - 24.x # EOL: 2028-04-30
+          - 25.x # EOL: 2026-06-01
+          # - 26.x # EOL: 2029-04-30 REL: 2026-04-23
           # See supported Node.js release schedule at https://github.com/nodejs/Release
     steps:
     - uses: actions/checkout@v6
