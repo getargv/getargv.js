@@ -15,8 +15,7 @@ jobs:
         node-version:
           - 22.x # EOL: 2027-04-30
           - 24.x # EOL: 2028-04-30
-          - 25.x # EOL: 2026-06-01
-          # - 26.x # EOL: 2029-04-30 REL: 2026-04-23
+          - 26.x # EOL: 2029-04-30
           # See supported Node.js release schedule at https://github.com/nodejs/Release
     steps:
     - uses: actions/checkout@v6
