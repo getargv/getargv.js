@@ -40,58 +40,70 @@ napi_value create_system_error(napi_env env, errno_t err) {
 struct GetArgvOptions parseTripleArgs(napi_env env, napi_callback_info info) {
   size_t argc = 3;
   napi_value argv[argc];
+  struct GetArgvOptions options = {.pid = 0, .nuls = false, .skip = false};
 
   if (napi_get_cb_info(env, info, &argc, argv, NULL, NULL) != napi_ok) {
     napi_throw_error(env, "ERR_AMBIGUOUS_ARGUMENT",
                      "Failed to parse arguments");
+    return options;
   }
   if (argc < 1) {
     napi_throw_type_error(env, "ERR_MISSING_ARGS",
                           "The \"pid\" argument must be specified");
+    return options;
   } else if (argc > 3) {
     napi_throw_type_error(env, "ERR_TOO_MANY_ARGS",
                           "Too many arguments were provided, max: 3");
+    return options;
   }
 
   pid_t pid = 0;
   if (napi_get_value_int32(env, argv[0], &pid) != napi_ok) {
     napi_throw_type_error(env, "ERR_INVALID_ARG_TYPE",
                           "Invalid number was passed as first argument");
+    return options;
   }
   if (pid < 0 || pid > _PID_MAX) {
     // or ERR_OUT_OF_RANGE
     napi_throw_range_error(env, "ERR_INVALID_ARG_VALUE",
                            "Invalid PID was passed as first argument");
+    return options;
   }
+  options.pid = pid;
 
   bool nuls = false;
   if (argc > 1) {
     if (napi_get_value_bool(env, argv[1], &nuls) != napi_ok) {
       napi_throw_type_error(env, "ERR_INVALID_ARG_TYPE",
                             "Invalid bool was passed as second argument");
+      return options;
     }
   }
+  options.nuls = nuls;
 
   int64_t skip = 0;
   if (argc > 2) {
     if (napi_get_value_int64(env, argv[2], &skip) != napi_ok) {
       napi_throw_type_error(env, "ERR_INVALID_ARG_TYPE",
                             "Invalid number was passed as third argument");
+      return options;
     }
     if (skip < 0 || skip > ARG_MAX) {
       // or ERR_OUT_OF_RANGE
       napi_throw_range_error(env, "ERR_INVALID_ARG_VALUE",
                              "Invalid number was passed as third argument, "
-                             "must be between 0 and " ARG_MAX_STR "");
+                               "must be between 0 and " ARG_MAX_STR "");
+      return options;
     }
   }
-  struct GetArgvOptions options = {.pid = pid, .nuls = nuls, .skip = skip};
+  options.skip = skip;
   return options;
 }
 
 pid_t parseSingleArg(napi_env env, napi_callback_info info) {
   size_t argc = 1;
   napi_value argv[argc];
+  pid_t pid = -1;
 
   if (napi_get_cb_info(env, info, &argc, argv, NULL, NULL) != napi_ok) {
     napi_throw_error(env, "ERR_AMBIGUOUS_ARGUMENT",
@@ -100,20 +112,23 @@ pid_t parseSingleArg(napi_env env, napi_callback_info info) {
   if (argc < 1) {
     napi_throw_type_error(env, "ERR_MISSING_ARGS",
                           "The \"pid\" argument must be specified");
+    return pid;
   } else if (argc > 1) {
     napi_throw_type_error(env, "ERR_TOO_MANY_ARGS",
                           "Too many arguments were provided, max: 1");
+    return pid;
   }
 
-  pid_t pid = 0;
   if (napi_get_value_int32(env, argv[0], &pid) != napi_ok) {
     napi_throw_type_error(env, "ERR_INVALID_ARG_TYPE",
                           "Invalid number was passed as first argument");
+    return pid;
   }
   if (pid < 0 || pid > _PID_MAX) {
     // or ERR_OUT_OF_RANGE
     napi_throw_range_error(env, "ERR_INVALID_ARG_VALUE",
                            "Invalid PID was passed as first argument");
+    return pid;
   }
 
   return pid;
@@ -189,11 +204,13 @@ napi_value Init(napi_env env, napi_value exports) {
                            &get_argv_of_pid_fn) != napi_ok) {
     napi_throw_error(env, "ERR_INTERNAL_ASSERTION",
                      "Unable to wrap native function");
+    return exports;
   }
   if (napi_set_named_property(env, exports, "get_argv_of_pid",
                               get_argv_of_pid_fn) != napi_ok) {
     napi_throw_error(env, "ERR_INTERNAL_ASSERTION",
                      "Unable to populate exports");
+    return exports;
   }
 
   napi_value get_argv_and_argc_of_pid_fn;
@@ -202,32 +219,38 @@ napi_value Init(napi_env env, napi_value exports) {
                            &get_argv_and_argc_of_pid_fn) != napi_ok) {
     napi_throw_error(env, "ERR_INTERNAL_ASSERTION",
                      "Unable to wrap native function");
+    return exports;
   }
   if (napi_set_named_property(env, exports, "get_argv_and_argc_of_pid",
                               get_argv_and_argc_of_pid_fn) != napi_ok) {
     napi_throw_error(env, "ERR_INTERNAL_ASSERTION",
                      "Unable to populate exports");
+    return exports;
   }
 
   napi_value pid_max_constant;
   if (napi_create_uint32(env, _PID_MAX, &pid_max_constant) != napi_ok) {
     napi_throw_error(env, "ERR_INTERNAL_ASSERTION",
                      "Unable to create constant");
+    return exports;
   }
   if (napi_set_named_property(env, exports, "PID_MAX", pid_max_constant) !=
       napi_ok) {
     napi_throw_error(env, "ERR_INTERNAL_ASSERTION",
                      "Unable to populate exports");
+    return exports;
   }
   napi_value arg_max_constant;
   if (napi_create_uint32(env, ARG_MAX, &arg_max_constant) != napi_ok) {
     napi_throw_error(env, "ERR_INTERNAL_ASSERTION",
                      "Unable to create constant");
+    return exports;
   }
   if (napi_set_named_property(env, exports, "ARG_MAX", arg_max_constant) !=
       napi_ok) {
     napi_throw_error(env, "ERR_INTERNAL_ASSERTION",
                      "Unable to populate exports");
+    return exports;
   }
 
   return exports;
