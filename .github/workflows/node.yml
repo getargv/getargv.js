@@ -17,6 +17,7 @@ jobs:
           - 24.x # EOL: 2028-04-30
           - 26.x # EOL: 2029-04-30
           # See supported Node.js release schedule at https://github.com/nodejs/Release
+          # When a version is EOL, bump package.json's engines: node version
     steps:
     - uses: actions/checkout@v6
       with:
