@@ -1,7 +1,7 @@
 import { spawn } from 'node:child_process';
 import process from "node:process";
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { unlinkSync, existsSync } from "node:fs";
 
@@ -12,6 +12,9 @@ function removePrefix(str, prefix) {
 }
 
 function fixupPerNodeVersion(path) {
+    if (process.isBun) {
+        path = removePrefix(path, dirname(process.execPath) + "/");
+    }
     return removePrefix(path, process.cwd() + "/");
 }
 
