@@ -62,18 +62,18 @@ jobs:
   test-bun:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         repository: getargv/getargv
         path: getargv
-        token: ${{ secrets.GH_PAT }}
+        token: ${{ secrets.GETARGV_READ }}
     - name: Build libgetargv
       run: make dylib
       working-directory: getargv
     - name: Install libgetargv
       run: sudo make install_dylib
       working-directory: getargv
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         path: getargv.js
     - uses: oven-sh/setup-bun@v2
