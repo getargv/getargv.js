@@ -33,6 +33,7 @@
     "rewriteRelativeImportExtensions": true,
     "declaration": true,
     "noEmit": false,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "rootDir": "./lib"
   }
 }
