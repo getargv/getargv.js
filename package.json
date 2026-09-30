@@ -32,7 +32,7 @@
         "build": "node-gyp configure build",
         "rebuild": "node-gyp rebuild",
         "pretest": "npm run build",
-        "test": "node --test",
+        "test": "node --test test/test_binding.js",
         "prepack": "npm run build",
         "precli": "npm run build",
         "cli": "node dist/cli.js",
